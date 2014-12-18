@@ -75,3 +75,14 @@ error that it finds in the CSS. For example, it will parse `a {` as `a {}`.
 ```js
 var css = require('postcss?safe=1!./broken')
 ```
+
+## Source Maps
+
+If you set the `sourceMap` option by adding `?sourceMap` to the requirement, PostCSS creates a source map referring back to its input, and applies this to source maps from previous loaders if they are available.
+
+```js
+loaders: [{
+  loader: "css?sourceMap!postcss?sourceMap",
+  ...
+}]
+```
