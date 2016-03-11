@@ -1,20 +1,21 @@
 var gulp = require('gulp');
+var path = require('path');
 
 gulp.task('clean', function (done) {
     var fs = require('fs-extra');
-    fs.remove(__dirname + '/build', done);
+    fs.remove(path.join(__dirname, 'build'), done);
 });
 
 gulp.task('lint', function () {
-    var jshint = require('gulp-jshint');
-    return gulp.src(['index.js', 'test/*.js', 'gulpfile.js'])
-        .pipe(jshint())
-        .pipe(jshint.reporter('jshint-stylish'))
-        .pipe(jshint.reporter('fail'));
+    var eslint = require('gulp-eslint');
+    return gulp.src(['index.js', 'test/**/*.js', 'gulpfile.js'])
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
 });
 
 gulp.task('build', ['clean'], function () {
-    var webpack = require('gulp-webpack');
+    var webpack = require('webpack-stream');
     return gulp.src('')
         .pipe(webpack(require('./test/webpack.config')))
         .pipe(gulp.dest('build/'));
